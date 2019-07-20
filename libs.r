@@ -17,4 +17,9 @@
   library(htmlwidgets)
   library(pdftools)
   library(zoo)
+  library(readxl)
+  library(ggridges)
+  library(raster)
+  library(velox)
 }
+
