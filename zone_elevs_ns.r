@@ -1,4 +1,4 @@
-zonelevs <- c("TCCC1HLF",  #ordered generally north to south
+newzones <- c("TCCC1HLF",  #ordered generally north to south
               "TCCC1HUF",
               "CEGC1LLF",
               "CEGC1LUF",
@@ -32,3 +32,5 @@ zonelevs <- c("TCCC1HLF",  #ordered generally north to south
               "TVRC1HUF",
               "BTJC1HOF",
               "HANC1LOF")
+
+
