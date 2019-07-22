@@ -1,4 +1,4 @@
-newzones <- c("TCCC1HLF",  #ordered generally north to south
+zones2019 <- c("TCCC1HLF",    #generally north to south
               "TCCC1HUF",
               "CEGC1LLF",
               "CEGC1LUF",
@@ -7,9 +7,10 @@ newzones <- c("TCCC1HLF",  #ordered generally north to south
               "ANTC1HOF",
               "DVSC1HOF",
               "FHDC1HOF",
-              "MFTC1LLF",
-              "MFTC1LUF",
+              "MFTC1HLF",
+              "MFTC1HUF", 
               "GEYC1LOF",
+              "GUEC1LOF",
               "BSCC1HOF",
               "RMKC1HOF",
               "HEAC1LOF",
@@ -23,14 +24,13 @@ newzones <- c("TCCC1HLF",  #ordered generally north to south
               "THTC1LOF",
               "MRWC1LOF",
               "LBDC1HOF",
-              "NWMC1LOF",
-              "SCSC1LLF",
-              "SCSC1LMF",
               "SCSC1LUF",
+              "SCSC1LLF",
               "TVRC1HLF",
               "TVRC1HMF",
               "TVRC1HUF",
               "BTJC1HOF",
-              "HANC1LOF")
+              "HANC1LOF",
+              "NWMC1LOF")
 
 
