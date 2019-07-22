@@ -20,6 +20,8 @@
   library(readxl)
   library(ggridges)
   library(raster)
-  library(velox)
+  #library(velox)
+  #library(snow)
+ # library(fasterize)
 }
 

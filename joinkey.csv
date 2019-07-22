@@ -1,0 +1,92 @@
+nwsid_rqot nwsid_obs,cdec_id, basin
+KWKC1, !,  KES, Upper Sac.
+WHSC1, !,  WHI, Upper Sac.
+EPRC1, !,  EPK, Upper Sac.
+SGEC1, !,  STG, Upper Sac.
+BLBC1, !,  BLB, Upper Sac.
+ANTC1, !,  ANT, Feather_Yuba
+FHDC1, !,  FRD, Feather_Yuba
+DVSC1, !,  DAV, Feather_Yuba
+ORDC1, !,  ORO, Feather_Yuba
+NBBC1, !,  BUL, Feather_Yuba
+HLEC1, YRSC1,  ENG, Feather_Yuba
+CFWC1, BRWC1,  CFW, Feather_Yuba
+FMDC1, !,  FMD, American River
+HLLC1, !,  HHL, American River
+LNLC1, !,  LON, American River
+ICHC1, !,  ICH, American River
+UNVC1, !,  UVR, American River
+NIMC1, !,  NAT, American River
+CLKC1, !,  CLA, Cache_Putah
+INVC1, CKKC1,  INV, Cache_Putah
+LBEC1, PUCC1,  BER, Cache_Putah
+SWRC1, !,  SRW, Lower Sac.
+SWRC1, !,  SRW, Lower Sac.
+ISAC1, !,  ISB, Tulare
+SCSC1, !,  SCC, Tulare
+TMDC1, !,  TRM, Tulare
+PFTC1, !,  PNF, Tulare
+MACC1, NA,  MI1, San Joaquin
+FKCC1, NA,  MI2, San Joaquin
+SJFC1, FRAC1,  MIL, San Joaquin
+BIFC1, !,  SJB, San Joaquin
+KRCC1, !,  CSW, San Joaquin
+HIDC1, !,  HID, San Joaquin
+BHNC1, !,  BUC, San Joaquin
+MIFC1, !,  CHD, San Joaquin
+MSWC1, MMFC1,  MCS, San Joaquin
+MMLC1, NA,  MMC, San Joaquin
+HETC1, !,  HTH, San Joaquin
+HAQC1, NA,  HAQ, San Joaquin
+LEDC1, NA,  EDT, San Joaquin
+CHVC1, !,  CHV, San Joaquin
+HAQC1, NA,  HAQ, San Joaquin
+LNGC1, !,  LGR, San Joaquin
+NSWC1, !,  NSW, San Joaquin
+KNFC1, !,  GDW, San Joaquin
+FRGC1, !,  FRM, N_San Joaquin
+NHGC1, !,  NHG, N_San Joaquin
+CMCC1, !,  CMN, N_San Joaquin
+GERO3, !,  GBR, Klamath
+CKEC1, LCLC1,  CLK, Klamath
+ACNO3, !,  KAC, Klamath
+IRGC1, !,  IRG, Klamath
+LLKC1, TRWC1,  LEW, Klamath
+PORC1, !,  PVP, North Coast
+LAMC1, !,  COY, Russian_Napa
+PORC1, !,  PVP, Russian_Napa
+WSDC1, !,  WRS, Russian_Napa
+SNRC1, NA,  ATN, Central Coast
+NACC1, !,  NCM, Central Coast
+COYC1, RCCC1,  CYC, Central Coast
+ANDC1, CYTC1,  LRA, Central Coast
+LEXC1, LGLC1,  LNG, Central Coast
+ALRC1, ATOC1,  ALR, Central Coast
+GUAC1, GPEC1,  GUA, Central Coast
+CADC1, CALC1,  CAE, Central Coast
+CVQC1, CAVC1,  CVE, Central Coast
+ANOC1, ACSC1,  SAT, Central Coast
+DVAC1, LVKC1,  DLV, Central Coast
+TWDC1, !,  TWT, Southern Cal.
+CCHC1, SYYC1,  CCH, Southern Cal.
+CSKC1, NA,  CAS, Southern Cal.
+EFBC1, NA,  EFB, Southern Cal.
+PYMC1, !,  PYM, Southern Cal.
+LKPC1, PSFC1,  PIU, Southern Cal.
+SRWC1, !,  SVO, Southern Cal.
+HAWC1, NA,  HNS, Southern Cal.
+ELPC1, !,  ELC, Southern Cal.
+SVIC1, !,  SVT, Southern Cal.
+SVWC1, !,  SLW, Southern Cal.
+MVDC1, NA,  MJD, Southern Cal.
+TAHC1, TRTC1,  THC, East Sierra
+TAHC1, TRTC1,  THC, East Sierra
+DNRC1, DCKC1,  DNC, East Sierra
+MTSC1, MCTC1,  MRT, East Sierra
+PSRC1, PROC1,  PRS, East Sierra
+ILAC1, ICRC1,  INC, East Sierra
+STPC1, LITC1,  STP, East Sierra
+BCVC1, BCAC1,  BOC, East Sierra
+TOPN2, TPCN2,  TOP, East Sierra
+TPZC1, !,  TPZ, East Sierra
+BPRC1, EWBC1,  BDP, East Sierra
