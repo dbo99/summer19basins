@@ -6,7 +6,7 @@ source("libs.r")
 fcast_gps <- c("CachePutah", "RussianNapa", "Klamath" , "FeatherYuba",  "Tulare" ,"American", "SanJoaquin","SouthernCalifornia", 
                "EastSierra" , "NorthCoast", "CentralCoast" , "LowerSacramento" , "UpperSacramento","N_SanJoaquin", "Humboldt")
 
-grouptoextract <- fcast_gps[3]
+grouptoextract <- fcast_gps[1]
 
 source("newzones2019.r")
 
@@ -22,22 +22,24 @@ source("newzones2019.r")
  # setwd("~/Documents/basins19/data")
 setwd("~/R/proj/basins2019/data")
   zones <- readOGR(".", "cnrfc_zones_07122019_83alb_eacusgs") %>% st_as_sf() %>% 
-   # filter(ForecastGr == grouptoextract ) %>%
-    filter(Name %in% zones2019 ) %>%
-   
-    transmute(zone = Name, fcast_grp = ForecastGr, basin = Basin, geometry) %>%
-   # filter(zone == "ICHC1HOF")
+    filter(ForecastGr == grouptoextract ) %>%
+   # filter(Name %in% zones2019 ) %>%
+
+  transmute(zone = Name, fcast_grp = ForecastGr, basin = Basin, geometry) %>%
+  #filter(zone == "CEGC1LLF")
   shp_prj <- crs(zones)
   shp_prj
   zonenumid <- data.frame(c(1:length(zones$geometry)),as.character(zones$zone),stringsAsFactors = F) # for join
   colnames(zonenumid) <- c("zonenumid","zone") 
   elev_int_m <- raster("ihabbs_elev_ned2010_int_m.tif")
-  crs(elev_int_m) <- shp_prj
+  crs(elev_int_m) # missing three zeros!
+  crs(elev_int_m) <- shp_prj #add them back - confirmed appropriate and required.
   crs(elev_int_m)
   crs(shp_prj)
   
   #zones <- spTransform(zones, rastprj)
   beginCluster(n=2)  #library(snow)
+  #extracted <- extract(elev_int_m, zones, fun=function(i)table(i))
   extracted <- extract(elev_int_m, zones, progress = 'text')
   endCluster() #library(snow)
   #extractedbu <- extracted
