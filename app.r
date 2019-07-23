@@ -21,7 +21,7 @@ ui <-
       fluidRow(
 
         selectizeInput(
-        "zone", "Zone", choices = unique(df$zone), 
+        "zone", "zone", choices = unique(df$zone), 
         selected = c("CEGC1LLF", "CEGC1LUF"), 
         multiple = TRUE)),
       
@@ -38,29 +38,29 @@ ui <-
       
                ),
       
-      fluidRow(
+      #fluidRow(
 
-        column(4,radioButtons("free_scale", "y scale",                
-                              choices = c("free", "fixed"), selected = "free", inline = T))),
+        radioButtons("free_scale", "y",                
+                              choices = c("free", "fixed"), selected = "free", inline = T),
       
       radioButtons("units", "units",                
                    choices = c("metric", "english"), selected = "english", inline = T),
       
       
-      radioButtons('color', 'color', c("none",  "zone", "param", "dsrce" ), selected  = "dsrce", inline = T ),
+      radioButtons('color', 'color', c("none",  "zone", "basin", "param", "dsrce" ), selected  = "dsrce", inline = T ),
       
-      radioButtons('linetype', 'line type (eg dashed)', c("none",  "zone", "param", "dsrce"), selected  = "none", inline = T ),
+      radioButtons('linetype', 'line type (eg dashed)', c("none",  "zone", "basin","param", "dsrce"), selected  = "none", inline = T ),
       
       
-      radioButtons('facet_row', 'split by row',
+      radioButtons('facet_row', 'split by column',
                    
-                   c(none='.',   "zone", "param", "dsrce"), inline = T,
-                   selected = "none"),
+                   c(none = '.',   "zone", "basin",  "param", "dsrce"), inline = T,
+                   selected = "zone"),
       
-      radioButtons('facet_col', 'split by column',
+      radioButtons('facet_col', 'split by row',
                    
-                   c(none='.',  "zone", "param", "dsrce" ), inline = T,
-                   selected = "zone")
+                   c(none = '.',  "zone", "basin","param", "dsrce" ), inline = T,
+                   selected = "basin")
       
  
     ),
@@ -69,13 +69,15 @@ ui <-
       
       tabsetPanel(position=c("right"),
                   
+  
+                  tabPanel(strong("interactive cdf"), 
+                           br(),
+                           plotlyOutput("plotly_plot",  height = "750px")) ,
+                  
                   tabPanel(strong("static cdf"), 
                            br(),
                            plotOutput("reg_plot",  height = "750px")) ,
                   
-                  tabPanel(strong("interactive cdf"), 
-                           br(),
-                           plotlyOutput("plotly_plot",  height = "750px")) ,
                   
                   # tabPanel(strong("map1"), 
                   # br(),
@@ -98,6 +100,13 @@ server <- function(input, output) {
   
   output$reg_plot <- renderPlot({
     
+    # df <- data.frame(var1=c('a', 'b', 'c'),  freq=1:3)
+    # df
+    # df %>%  uncount(freq)
+    # head(df)
+    
+    
+    
       df <- df  %>%  filter(zone %in% input$zone)   %>% 
                      filter(param %in% input$param) %>%
                      filter(dsrce %in% input$dsrce) 
@@ -112,68 +121,71 @@ server <- function(input, output) {
         mutate(val = ifelse(unit == "m", val * 0.3048, val))
       
 
-     # df <- df %>% mutate(basin = substr(zone,1,nchar(zone)-3))
+     df <- df %>% mutate(basin = substr(zone,1,nchar(zone)-3))
       
     p <- ggplot(df, aes(val)) +   labs(y = "proportion of total", x = NULL) +
-      scale_y_continuous(sec.axis = dup_axis(name = NULL)) + stat_ecdf(pad = FALSE) + coord_flip() 
+      scale_y_continuous(sec.axis = dup_axis(name = NULL)) + 
+      scale_x_continuous(sec.axis = dup_axis(name = NULL))  + 
+      stat_ecdf(pad = FALSE) + coord_flip() 
       
     
     if (input$color != 'none')
-      p <- p + aes_string(color=input$color)
+      p <- p + aes_string(color = input$color)
     
     if (input$linetype != 'none')
-      p <- p + aes_string(linetype=input$linetype)
+      p <- p + aes_string(linetype = input$linetype)
     
-    facets <- paste(input$facet_row, '~', input$facet_col)
+    facets <- paste(input$facet_col, '~', input$facet_row)
     
     if (facets != '. ~ .' &&  input$free_scale == "free"  )
-      p <- p + facet_grid(facets, scales = 'free_y') + theme(strip.text.y = element_text(angle = 0)) 
+      p <- p + facet_grid(facets, scales = 'free') + theme(strip.text.y = element_text(angle = 0)) 
     
     if (facets != '. ~ .' &&  input$free_scale == "fixed"  )
       p <- p + facet_grid(facets) + theme(strip.text.y = element_text(angle = 0)) 
     
-    
+   
     
     print(p)
     
   }) 
   
-  
   output$plotly_plot <- renderPlotly({
     
-    #input$goButton
+    # df <- data.frame(var1=c('a', 'b', 'c'),  freq=1:3)
+    # df
+    # df %>%  uncount(freq)
+    # head(df)
     
-    startdowy <- dowy %>% filter(date == input$start_date)
-    startdowy <- startdowy$dowy
-    enddowy <- dowy %>% filter(date == input$end_date) 
-    enddowy <- enddowy$dowy
     
-    if (input$resctricttodowy == "no" && input$entirebasin == "yes")
-      df <- df  %>% filter(date >= input$start_date) %>% filter(date <= input$end_date) %>%
-      filter(nws_basin_code %in% input$nws_basin_code)   %>% 
-      filter(param %in% input$parameter)
     
-    if (input$resctricttodowy == "yes" && input$entirebasin == "yes")
+    df <- df  %>%  filter(zone %in% input$zone)   %>% 
+      filter(param %in% input$param) %>%
+      filter(dsrce %in% input$dsrce) 
+    
+    if (input$units == "metric")  
       
-      df <- df  %>% filter(date >= input$start_date) %>% filter(date <= input$end_date) %>%
-      filter(nws_basin_code %in% input$nws_basin_code)   %>% 
-      filter(param %in% input$parameter) %>% filter(dowy >= startdowy) %>% filter(dowy <= enddowy)
+      df <- df %>% mutate(unit = ifelse(unit == "in", "mm", unit)) %>%
+        mutate(unit = ifelse(unit == "fahr", "cels", unit)) %>%
+        mutate(unit = ifelse(unit == "ft", "m", unit)) %>%
+        mutate(val = ifelse(unit == "mm", val * 25.4, val )) %>%
+        mutate(val = ifelse(unit == "cels", (val - 32) * 5/9, val)) %>%
+        mutate(val = ifelse(unit == "m", val * 0.3048, val))
     
-    if (input$resctricttodowy == "no" && input$entirebasin == "no")
-      df <- df  %>% filter(date >= input$start_date) %>% filter(date <= input$end_date) %>%
-      filter(nws_basin_code %in% input$nws_basin_code)   %>% 
-      filter(param %in% input$parameter) %>% filter(basin_zone == "Entire Basin")
     
-    if (input$resctricttodowy == "yes" && input$entirebasin == "no")
-      
-      df <- df  %>% filter(date >= input$start_date) %>% filter(date <= input$end_date) %>%
-      filter(nws_basin_code %in% input$nws_basin_code)   %>% 
-      filter(param %in% input$parameter) %>% filter(dowy >= startdowy) %>% filter(dowy <= enddowy) %>%
-      filter(basin_zone == "Entire Basin")
+    df <- df %>% mutate(basin = substr(zone,1,nchar(zone)-3))
     
-    df <- df %>% mutate(wy = as.factor(wy))
-    p <- ggplot(df, aes_string(x=input$x, y= "numval")) + geom_point(size = 0.5) + geom_line()  + labs(y = NULL, x = NULL) +
-      scale_y_continuous(sec.axis = dup_axis(name = NULL)) + theme_bw(base_size=18)
+    df <- df[order(df$val), ]
+    
+    (p <- ggplot(df, aes(val) ) + 
+        stat_ecdf(pad = FALSE) + coord_flip()) +  #facet_wrap(~zone, nrow = 1)) +
+      scale_x_continuous(sec.axis = dup_axis(name = NULL)) + 
+      scale_y_continuous(sec.axis = dup_axis(name = NULL))  
+    
+   
+    
+   # p <- ggplot(df, aes(val)) +   labs(y = "proportion of total", x = NULL) +
+   #   scale_y_continuous(sec.axis = dup_axis(name = NULL)) + stat_ecdf(pad = FALSE) + coord_flip() 
+    
     
     if (input$color != 'none')
       p <- p + aes_string(color=input$color)
@@ -181,20 +193,22 @@ server <- function(input, output) {
     if (input$linetype != 'none')
       p <- p + aes_string(linetype=input$linetype)
     
-    facets <- paste(input$facet_row, '~', input$facet_col)
+    facets <- paste(input$facet_col, '~', input$facet_row)
     
     if (facets != '. ~ .' &&  input$free_scale == "free"  )
-      p <- p + facet_grid(facets, scales = 'free_y') + theme(strip.text.y = element_text(angle = 0)) 
+      p <- p + facet_grid(facets, scales = 'free') + theme(strip.text.y = element_text(angle = 0)) 
     
     if (facets != '. ~ .' &&  input$free_scale == "fixed"  )
       p <- p + facet_grid(facets) + theme(strip.text.y = element_text(angle = 0)) 
     
+    p <- p + labs(y = "proportion of total", x = NULL) 
+    p <- ggplotly(p) 
+   
+    p
+    #print(p)
     
-    p <- ggplotly(p)
-    
-    print(p)
-    
-  })
+  }) 
+  
   
   output$mapplot <- renderLeaflet({
     
