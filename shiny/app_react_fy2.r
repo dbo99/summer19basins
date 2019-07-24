@@ -236,13 +236,14 @@ server <- function(input, output) {
               popup = popupTable(allzones, zcol = zcol),
               layer.name = "p19p13_t_perdiff") + 
       
-      mapview(newzones["basin"], color = "red", #burst = TRUE, hide = TRUE, 
+      mapview(newzones["zone"], color = "red", #burst = TRUE, hide = TRUE, 
               col.regions = pal(100), 
               # cex = zones$PrismDiff_percent,
               alpha.regions = 0.15,
               map.types = maptypes,
               popup = popupTable(newzones, zcol = zcol),
-              layer.name = "new zones") +
+              layer.name = "new zones", 
+              legend = FALSE) +
       
       
       mapview(allzones["p19xlsoldercap_perdiff"], #burst = TRUE, hide = TRUE, 
