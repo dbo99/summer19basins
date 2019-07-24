@@ -1,4 +1,3 @@
-source("libs.r")
 source("shiny_dfbuild_react.R")
 
 ui <- 
@@ -203,10 +202,15 @@ server <- function(input, output) {
       p19p13_t_perdiff, geometry)
     
     source("zones2019.r")
+    
+    oldercap_p <- read_csv("mapcompare_pf.csv")
+    
+    allzones <- inner_join(allzones, oldercap_p) %>% mutate(p19xlsoldercap_perdiff = (p19_meanann_p_in - cap_old)/p19_meanann_p_in *100,
+                                                            p19xlsoldestcap_perfiff = (p19_meanann_p_in - cap_oldest)/p19_meanann_p_in *100)
     newzones <- allzones %>% filter(zone %in% zones2019 )
     
     
-  #  selectedzones  <- allzones  %>%   filter(zone %in% input$zone) 
+    selectedzones  <- allzones  %>%   filter(zone %in% input$zone) 
     
     zcol = colnames(allzones) %>% .[.!="geometry"]
     pal <-  mapviewPalette("mapviewSpectralColors")
@@ -233,12 +237,29 @@ server <- function(input, output) {
               alpha.regions = 0.9,
               map.types = maptypes,
               popup = popupTable(newzones, zcol = zcol),
-              layer.name = "p19p13_p_perdiff_new")# +
+              layer.name = "p19p13_p_perdiff_new") +
       
-   #   mapview(selectedzones["p19p13_p_perdiff"], color = "red", 
-   #           alpha.regions = 0.0, 
-   #           popup = popupTable(selectedzones, zcol = zcol),
-   #           layer.name = "selected basin(s') outline", legend = FALSE) 
+      
+      mapview(allzones["p19xlsoldercap_perdiff"], #burst = TRUE, hide = TRUE, 
+              col.regions = rev(pal(100)), 
+              # cex = zones$PrismDiff_percent,
+              alpha.regions = 0.5,
+              map.types = maptypes,
+              popup = popupTable(allzones, zcol = zcol),
+              layer.name = "p19xlsoldercap_perdiff") + 
+      
+      mapview(newzones["p19xlsoldestcap_perfiff"], #burst = TRUE, hide = TRUE, 
+              col.regions = pal(100), 
+              # cex = zones$PrismDiff_percent,
+              alpha.regions = 0.9,
+              map.types = maptypes,
+              popup = popupTable(newzones, zcol = zcol),
+              layer.name = "p19xlsoldestcap_perfiff") +
+      
+     mapview(selectedzones["p19p13_p_perdiff"], color = "red", 
+             alpha.regions = 0.0, 
+             popup = popupTable(selectedzones, zcol = zcol),
+             layer.name = "selected basin(s') outline", legend = FALSE) 
     
     
     m@map = m@map %>% 
